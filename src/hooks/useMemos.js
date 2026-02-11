@@ -6,16 +6,18 @@ export const useMemos = () => {
   const [memos, setMemos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 메모 불러오기
   const fetchMemos = async () => {
     setIsLoading(true);
     try {
       const memos = await getMemos();
+      setMemos(memos.items);
     } catch (error) {
       console.error('로딩 실패!', error);
     } finally {
       setTimeout(() => {
         setIsLoading(false);
-      }, 1500);
+      }, 1000);
     }
   };
 

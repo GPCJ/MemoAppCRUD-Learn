@@ -1,10 +1,10 @@
 import { deleteMemo } from '../api/memos';
 
 function MemoList({ memos, deleteMemoSync }) {
+  // 날짜 데이터 포맷 함수
   const formatDate = (date) => {
-    const rawDate = date;
-    const simpleDate = rawDate.split('T')[0]; // "2026-02-11"
-    return simpleDate;
+    if (!date) return '';
+    return date.replace('T', ' ').slice(0, 16);
   };
 
   return (
@@ -22,7 +22,7 @@ function MemoList({ memos, deleteMemoSync }) {
             <p className="text-white whitespace-pre-wrap pr-8">
               제목: {memo.title}
             </p>
-            <p className="text-white whitespace-pre-wrap pr-8">
+            <p className="text-white whitespace-pre-wrap pr-8 my-5">
               내용: {memo.content}
             </p>
             <div className="mt-3 flex justify-between items-center">

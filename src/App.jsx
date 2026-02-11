@@ -11,8 +11,8 @@ const MemoMain = () => {
       <div className="max-w-2xl mx-auto">
         <Header />
         <MemoInput createMemoSync={createMemoSync} />
-        <MemoList memos={memos} deleteMemoSync={deleteMemoSync} />
         {isLoading && <Loading />}
+        <MemoList memos={memos} deleteMemoSync={deleteMemoSync} />
       </div>
     </div>
   );
