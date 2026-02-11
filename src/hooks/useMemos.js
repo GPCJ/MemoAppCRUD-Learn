@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { getMemos } from '../api/memos';
 
 // CRUD 통합 동기화
 export const useMemos = () => {
   const [memos, setMemos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // 기존 메모 최초 불러오기
   const fetchMemos = async () => {
-    // 로딩 컴포넌트 켜기
-    // setLoading(true);
+    setIsLoading(true);
     try {
       const memos = await getMemos();
-      setMemos(memos.items);
     } catch (error) {
       console.error('로딩 실패!', error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
     }
   };
 
@@ -32,5 +34,5 @@ export const useMemos = () => {
   const updateMemoSync = (memo) =>
     setMemos((prev) => prev.map((m) => (m.id === memo.id ? memo : m)));
 
-  return { memos, createMemoSync, deleteMemoSync, updateMemoSync };
+  return { memos, isLoading, createMemoSync, deleteMemoSync, updateMemoSync };
 };
