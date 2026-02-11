@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
 
-function MemoInput({ createMemo }) {
+function MemoInput({ createMemo, setMemos }) {
   const [titleMemo, setTitleMemo] = useState('');
   const [contentMemo, setContentMemo] = useState('');
-  const [isError, setIsError] = useState(false);
+  // const [isError, setIsError] = useState(false);
 
   const handleMemo = async (title, content) => {
     const trimmedTitle = title.trim();
     const trimmedContent = content.trim();
 
     if (trimmedTitle === '' || trimmedContent === '') {
-      setIsError(true);
+      // setIsError(true);
       // 메모 공백 에러 메시지 필요
+      // useEffect써서 isError가 바뀌면 에러 메시지 컴포넌트 호출하는 방식 좋아보임
       return;
     }
-
-    setIsError(false);
-
+    // setIsError(false);
     const newMemo = {
       title: trimmedTitle,
       content: trimmedContent,

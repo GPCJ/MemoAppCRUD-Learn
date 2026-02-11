@@ -16,7 +16,7 @@ export const createMemo = async (payload) => {
 
 // 수정
 export const updateMemo = async (id, payload) => {
-  const response = await client.patch(`/memos/${id}`, payload);
+  const response = await client.patch(`/memos/${id}`);
   return response.data;
 };
 

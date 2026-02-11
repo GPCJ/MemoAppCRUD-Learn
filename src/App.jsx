@@ -25,7 +25,7 @@ const MemoMain = () => {
       <div className="max-w-2xl mx-auto">
         <Header />
         <MemoInput createMemo={createMemo} />
-        <MemoList memos={memos} deleteMemo={deleteMemo} />
+        <MemoList memos={memos} deleteMemo={deleteMemo} setMemos={setMemos} />
       </div>
     </div>
   );

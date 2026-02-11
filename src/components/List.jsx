@@ -1,4 +1,4 @@
-function MemoList({ memos, deleteMemo }) {
+function MemoList({ memos, setMemos, deleteMemo }) {
   return (
     <div className="grid gap-4">
       {memos.length === 0 ? (
@@ -18,9 +18,13 @@ function MemoList({ memos, deleteMemo }) {
               <span className="text-xs text-gray-400 font-medium">
                 {`생성${memo.createdAt}`}
               </span>
-              {/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@버튼에 달려있는 delteMemo에서 나오는 에러 고쳐야함 */}
               <button
-                onClick={() => deleteMemo(memo.id)}
+                onClick={() => {
+                  deleteMemo(memo.id);
+                  setMemos((prev) =>
+                    prev.filter((prevMemo) => prevMemo.id !== memo.id),
+                  );
+                }}
                 className="text-gray-400 hover:text-red-500 transition-colors text-sm"
               >
                 삭제
