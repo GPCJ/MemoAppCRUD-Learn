@@ -5,15 +5,21 @@ import { getMemos } from '../api/memos';
 export const useSyncMemos = () => {
   const [memos, setMemos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isNull, setIsNull] = useState(false);
 
   // 메모 불러오기
   const fetchMemos = async () => {
     setIsLoading(true);
     try {
       const memos = await getMemos();
+      if (memos.items.length === 0) {
+        setIsNull(true);
+      }
       setMemos(memos.items);
+      setIsError(false);
     } catch (error) {
-      console.error('로딩 실패!', error);
+      if (error.response && error.response.status === 500) setIsError(true);
     } finally {
       setTimeout(() => {
         setIsLoading(false);
@@ -36,5 +42,14 @@ export const useSyncMemos = () => {
   const updateMemoSync = (memo) =>
     setMemos((prev) => prev.map((m) => (m.id === memo.id ? memo : m)));
 
-  return { memos, isLoading, createMemoSync, deleteMemoSync, updateMemoSync };
+  return {
+    memos,
+    isNull,
+    isLoading,
+    isError,
+    createMemoSync,
+    deleteMemoSync,
+    updateMemoSync,
+    fetchMemos,
+  };
 };

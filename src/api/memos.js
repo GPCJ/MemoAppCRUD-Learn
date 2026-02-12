@@ -1,9 +1,8 @@
 import client from './client';
 
-// 목록 조회
+// 목록 조회 / 에러 파라미터( fail: '1' )
 export const getMemos = async (params = {}) => {
-  const response = await client.get('/memos');
-  console.log(response.data);
+  const response = await client.get('/memos', { params: params });
   return response.data;
 };
 

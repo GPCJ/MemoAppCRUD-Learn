@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { createMemo } from '../api/memos';
 
 function MemoInput({ createMemoSync }) {

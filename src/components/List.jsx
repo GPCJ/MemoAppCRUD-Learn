@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { updateMemo, deleteMemo } from '../api/memos';
+// import { ErrorMessage } from './components-index';
 
-function MemoList({ memos, deleteMemoSync, updateMemoSync }) {
+function MemoList({ isError, memos, deleteMemoSync, updateMemoSync }) {
   const [editTitle, setEditTitle] = useState(memos.title);
   const [editContent, setEditContent] = useState(memos.content);
   const [editMemoId, setEditMemoId] = useState();
@@ -44,13 +45,9 @@ function MemoList({ memos, deleteMemoSync, updateMemoSync }) {
   return (
     // 리스트 전체 박스
     <section className="grid gap-4">
-      {memos.length === 0 ? (
-        <p className="text-center text-white py-10">
-          아직 작성된 메모가 없어요. ✍️
-        </p>
-      ) : (
-        memos.map((memo) => (
-          // 항목 박스
+      {memos.map((memo) => {
+        return (
+          // 항목
           <div
             key={memo.id}
             className="bg-[#3333] p-5 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative group"
@@ -68,11 +65,11 @@ function MemoList({ memos, deleteMemoSync, updateMemoSync }) {
                   ref={inputRef}
                   autoFocus
                   className={`w-full p-4 mb-4 border  rounded-lg focus:ring-2  focus:border-transparent outline-none transition-all  text-white
-                    ${
-                      isNull
-                        ? 'border-red-500 placeholder-red-500 focus:ring-red-500'
-                        : 'border-gray-200 placeholder-neutral-500 focus:ring-blue-500'
-                    }`}
+                  ${
+                    isNull
+                      ? 'border-red-500 placeholder-red-500 focus:ring-red-500'
+                      : 'border-gray-200 placeholder-neutral-500 focus:ring-blue-500'
+                  }`}
                   placeholder="제목을 입력해주세요."
                 />
                 <textarea
@@ -83,11 +80,11 @@ function MemoList({ memos, deleteMemoSync, updateMemoSync }) {
                   }}
                   onKeyDown={(e) => handleKeyDown(e, memo)}
                   className={`w-full h-32 p-4 border  rounded-lg focus:ring-2  focus:border-transparent outline-none transition-all resize-none text-white
-                    ${
-                      isNull
-                        ? 'border-red-500 placeholder-red-500 focus:ring-red-500'
-                        : 'border-gray-200 placeholder-neutral-500 focus:ring-blue-500'
-                    }`}
+                  ${
+                    isNull
+                      ? 'border-red-500 placeholder-red-500 focus:ring-red-500'
+                      : 'border-gray-200 placeholder-neutral-500 focus:ring-blue-500'
+                  }`}
                   placeholder="내용을 입력해주세요."
                 />
                 {/* 업데이트 시간과 조작 버튼 */}
@@ -151,8 +148,8 @@ function MemoList({ memos, deleteMemoSync, updateMemoSync }) {
               </>
             )}
           </div>
-        ))
-      )}
+        );
+      })}
     </section>
   );
 }
