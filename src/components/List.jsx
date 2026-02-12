@@ -1,8 +1,7 @@
 import { useState, useRef } from 'react';
 import { updateMemo, deleteMemo } from '../api/memos';
-// import { ErrorMessage } from './components-index';
 
-function MemoList({ isError, memos, deleteMemoSync, updateMemoSync }) {
+function MemoList({ memos, deleteMemoSync, updateMemoSync }) {
   const [editTitle, setEditTitle] = useState(memos.title);
   const [editContent, setEditContent] = useState(memos.content);
   const [editMemoId, setEditMemoId] = useState();

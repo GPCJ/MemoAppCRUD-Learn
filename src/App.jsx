@@ -8,7 +8,7 @@ import {
   MemoList,
   Loading,
   ErrorMessage,
-  NullMemos,
+  EmptyMemos,
 } from './components/components-index';
 import { useSyncMemos } from './hooks/useSyncMemos';
 
@@ -18,7 +18,7 @@ const MemoMain = () => {
     memos,
     isLoading,
     isError,
-    isNull,
+    isEmpty,
     createMemoSync,
     deleteMemoSync,
     updateMemoSync,
@@ -34,7 +34,7 @@ const MemoMain = () => {
 
         {isLoading && <Loading />}
         {isError && <ErrorMessage fetchMemos={fetchMemos} />}
-        {isNull && <NullMemos />}
+        {isEmpty && <EmptyMemos />}
 
         <MemoList
           isError={isError}

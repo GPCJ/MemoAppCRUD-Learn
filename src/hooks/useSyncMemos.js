@@ -6,7 +6,7 @@ export const useSyncMemos = () => {
   const [memos, setMemos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isNull, setIsNull] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   // 메모 불러오기
   const fetchMemos = async (searchQuery) => {
@@ -17,13 +17,17 @@ export const useSyncMemos = () => {
       setMemos(items);
 
       if (items.length === 0) {
-        setIsNull(true);
+        setIsEmpty(true);
       } else {
-        setIsNull(false);
+        setIsEmpty(false);
       }
       setIsError(false);
     } catch (error) {
-      if (error.response && error.response.status === 500) setIsError(true);
+      if (error.response && error.response.status === 500) {
+        setIsError(true);
+      } else {
+        setIsError(true);
+      }
     } finally {
       setTimeout(() => {
         setIsLoading(false);
@@ -50,7 +54,7 @@ export const useSyncMemos = () => {
     memos,
     isLoading,
     isError,
-    isNull,
+    isEmpty,
     createMemoSync,
     deleteMemoSync,
     updateMemoSync,
