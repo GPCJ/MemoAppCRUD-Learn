@@ -16,9 +16,7 @@ const MemoMain = () => {
   // useSyncMemos Hook 상태, 함수
   const {
     memos,
-    isLoading,
-    isError,
-    isEmpty,
+    state,
     createMemoSync,
     deleteMemoSync,
     updateMemoSync,
@@ -32,12 +30,11 @@ const MemoMain = () => {
         <MemoInput createMemoSync={createMemoSync} />
         <SelectMemo fetchMemos={fetchMemos} />
 
-        {isLoading && <Loading />}
-        {isError && <ErrorMessage fetchMemos={fetchMemos} />}
-        {isEmpty && <EmptyMemos />}
+        {state.isLoading && <Loading />}
+        {state.isError && <ErrorMessage fetchMemos={fetchMemos} />}
+        {state.isEmpty && <EmptyMemos />}
 
         <MemoList
-          isError={isError}
           memos={memos}
           deleteMemoSync={deleteMemoSync}
           updateMemoSync={updateMemoSync}

@@ -2,7 +2,6 @@ import { useState, useEffect, useReducer } from 'react';
 import { getMemos } from '../api/memos';
 
 const initialState = {
-  memos: [],
   isLoading: false,
   isError: false,
   isEmpty: false,
@@ -10,8 +9,6 @@ const initialState = {
 
 function stateUI(state, action) {
   switch (action.type) {
-    case 'FETCH_MEMO':
-      return { ...state, memos: action.payload };
     // 로딩 스피너 ON / OFF
     case 'ON_LOADING':
       return { ...state, isLoading: true };
@@ -34,6 +31,7 @@ function stateUI(state, action) {
 
 // CRUD 통합 동기화
 export const useSyncMemos = () => {
+  const [memos, setMemos] = useState([]);
   const [state, dispatch] = useReducer(stateUI, initialState);
 
   // 메모 불러오기
@@ -42,14 +40,14 @@ export const useSyncMemos = () => {
     try {
       const serverMemos = await getMemos(searchQuery);
       const items = serverMemos.items;
-      dispatch({ type: 'FETCH_MEMO', payload: items });
+      setMemos(items);
 
       if (items.length === 0) {
         dispatch({ type: 'ON_EMPTY' });
       } else {
         dispatch({ type: 'OFF_EMPTY' });
       }
-      setIsError(false);
+      dispatch({ type: 'OFF_ERROR' });
     } catch (error) {
       console.log(
         'API 통신 에러 발생:',
@@ -81,9 +79,7 @@ export const useSyncMemos = () => {
 
   return {
     memos,
-    isLoading,
-    isError,
-    isEmpty,
+    state,
     createMemoSync,
     deleteMemoSync,
     updateMemoSync,

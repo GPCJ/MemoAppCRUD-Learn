@@ -1,4 +1,4 @@
-function NullMemos() {
+function EmptyMemos() {
   return (
     <p className="text-center text-white py-10">
       아직 작성된 메모가 없어요. ✍️
@@ -6,4 +6,4 @@ function NullMemos() {
   );
 }
 
-export default NullMemos;
+export default EmptyMemos;
