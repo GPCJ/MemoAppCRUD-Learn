@@ -6,3 +6,5 @@ export { default as Loading } from './Loading';
 export { default as ErrorMessage } from './ErrorMessage';
 export { default as EmptyMemos } from './EmptyMemos';
 export { default as SelectMemo } from './SearchMemo';
+export { default as ViewMemo } from './ViewMemo';
+export { default as EditMemo } from './EditMemo';

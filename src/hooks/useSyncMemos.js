@@ -7,7 +7,7 @@ const initialState = {
   isEmpty: false,
 };
 
-function stateUI(state, action) {
+function stateUIReducer(state, action) {
   switch (action.type) {
     // 로딩 스피너 ON / OFF
     case 'ON_LOADING':
@@ -32,7 +32,7 @@ function stateUI(state, action) {
 // CRUD 통합 동기화
 export const useSyncMemos = () => {
   const [memos, setMemos] = useState([]);
-  const [state, dispatch] = useReducer(stateUI, initialState);
+  const [state, dispatch] = useReducer(stateUIReducer, initialState);
 
   // 메모 불러오기
   const fetchMemos = async (searchQuery) => {
