@@ -1,36 +1,65 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { getMemos } from '../api/memos';
+
+const initialState = {
+  memos: [],
+  isLoading: false,
+  isError: false,
+  isEmpty: false,
+};
+
+function stateUI(state, action) {
+  switch (action.type) {
+    case 'FETCH_MEMO':
+      return { ...state, memos: action.payload };
+    // 로딩 스피너 ON / OFF
+    case 'ON_LOADING':
+      return { ...state, isLoading: true };
+    case 'OFF_LOADING':
+      return { ...state, isLoading: false };
+    // 불러오기 중 통신 에러
+    case 'ON_ERROR':
+      return { ...state, isError: true };
+    case 'OFF_ERROR':
+      return { ...state, isError: false };
+    // 작성된 메모가 없음
+    case 'ON_EMPTY':
+      return { ...state, isEmpty: true };
+    case 'OFF_EMPTY':
+      return { ...state, isEmpty: false };
+    default:
+      throw new error(`정의 되지 않은 action입니다 : (${action.type})`);
+  }
+}
 
 // CRUD 통합 동기화
 export const useSyncMemos = () => {
-  const [memos, setMemos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [isEmpty, setIsEmpty] = useState(false);
+  const [state, dispatch] = useReducer(stateUI, initialState);
 
   // 메모 불러오기
   const fetchMemos = async (searchQuery) => {
+    dispatch({ type: 'ON_LOADING' });
     try {
-      setIsLoading(true);
       const serverMemos = await getMemos(searchQuery);
       const items = serverMemos.items;
-      setMemos(items);
+      dispatch({ type: 'FETCH_MEMO', payload: items });
 
       if (items.length === 0) {
-        setIsEmpty(true);
+        dispatch({ type: 'ON_EMPTY' });
       } else {
-        setIsEmpty(false);
+        dispatch({ type: 'OFF_EMPTY' });
       }
       setIsError(false);
     } catch (error) {
-      if (error.response && error.response.status === 500) {
-        setIsError(true);
-      } else {
-        setIsError(true);
-      }
+      console.log(
+        'API 통신 에러 발생:',
+        error.response.status || error.message,
+      );
+
+      dispatch({ type: 'ON_ERROR' });
     } finally {
       setTimeout(() => {
-        setIsLoading(false);
+        dispatch({ type: 'OFF_LOADING' });
       }, 500);
     }
   };
